@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-image: linear-gradient(to right, rgb(20, 112, 165), rgb(40, 147, 197));
+   
+}
+
+div#form_fundo{
+    backdrop-filter: blue(10px);
+    opacity: .9;
+    margin: 10% 25% 25% 25% ;
+    text-align: center;
+    border-style: double; 
+    font-weight: bold;
+    box-shadow: 10px 25px 25px rgb(54, 53, 119);
+}
+
+div#form_frente{
+    background-color:rgb(59, 44, 172);
+    margin: 5px;
+    text-align: center;
+    border-radius: 20px;
+    font-weight: bold;
+    box-shadow: 2px 5px 5px rgb(19, 15, 130);
+    padding: 30px;
+
+
+}
+
+label{
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 19px;
+
+}
+
+input{
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: bolder;
+
+}
+
+input:focus{
+    background-color: rgb(2, 40, 153);
+    color:black
+}
+button{
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: black;
+    color: blue;
+
+}
+
+button:hover{
+    background-color: blue;
+    color: black;
+    font-size: 30px;
+    cursor: pointer;
+
+}
