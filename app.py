@@ -1,90 +1,115 @@
 from flask import Flask, make_response, render_template, request, redirect
 import mysql.connector
+from forms import LoginForm
+from flask import flash
+from flask import session
 
+from functools import wraps
 
+#Essa função garante que certas rotas só sejam acessadas por usuários logados.
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' not in session:
+            return redirect('login')
+        return f(*args, **kwargs)
+    return decorated_function
+#####################################
 
-
-
-mydb=mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='suas enha',
-        database='formulario'
-
-    )
-
+#Configuração básica do Flask, incluindo uma chave secreta para sessões.
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'CINCITY09'
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+###############################################
 
+# Conexão com o banco de dados MySQL
+mydb = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='Cincity09!',
+    database='formulario'
+)
+
+################################################
+
+#Verifica as credenciais do usuário e atualiza a sessão.
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT * FROM logins WHERE login = %s AND senha = %s", (form.username.data, form.password.data))
+        user = mycursor.fetchone()
+
+        if user:
+            session['logged_in'] = True
+            flash('Login bem-sucedido!', 'success')
+            return redirect('/')
+        else:
+            flash('Nome de usuário ou senha incorretos.', 'danger')
+    return render_template('login.html', form=form)
+
+########################################################################
+
+
+#Recupera dados do banco de dados e os exibe.
 @app.route('/dados', methods=['GET'])
 def get_dados():
- 
-    mycursor=mydb.cursor()
-    mycursor.execute("SELECT * FROM formulario.logins")
-    meus_dados=mycursor.fetchall()
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM logins")
+    meus_dados = mycursor.fetchall()
 
-    dados=[]
+    dados = []
     for dado in meus_dados:
         dados.append(
-        {
-        'id':dado[0],
-        'plataforma':dado[1],
-        'login':dado[2],
-        'senha':dado[3]
-        
-  }
- )
-
+            {
+                'id': dado[0],
+                'plataforma': dado[1],
+                'login': dado[2],
+                'senha': dado[3]
+            }
+        )
 
     return make_response(
-        render_template('registros.html', dados=dados))
+        render_template('registros.html', dados=dados)
+    )
+#################################################################
 
 
 
-@app.route('/')
+@app.route('/')#Rota inicial
+@login_required # acessar essa rota exige login
 def home():
     return render_template('entrada_registros.html')
 
-@app.route("/entrada", methods=['POST', 'GET'])
-def inserir():
+############################################################
 
-    
+#Insere novos registros no banco de dados.
+@app.route("/entrada", methods=['POST'])
+def inserir():
     plataforma = request.form.get('plataforma')
     login = request.form.get('login')
     senha = request.form.get('senha')
     
-    
-    mydb=mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='Cincity09!',
-        database='formulario'
-
-    )
     if mydb.is_connected():
-        mycursor=mydb.cursor()
+        mycursor = mydb.cursor()
+        mycursor.execute(f"INSERT INTO logins VALUES (default, '{plataforma}', '{login}', '{senha}')")
+        mydb.commit()
 
-        
-    mycursor.execute(f"insert into logins values(default, '{plataforma}', '{login}', '{senha}')")
-    mydb.commit()
+    return redirect('/dados')  # Redirecione para '/dados' para exibir a tabela atualizada
 
-   
+################################################################################
 
-    
-    return redirect('/')
-
-@app.route('/delete', methods=['POST'])
-def delete():
-    cursor = mydb.cursor()
-    id = request.form['id']
-    cursor.execute("DELETE FROM logins WHERE id=%s", (id,))
+#Exclui registros do banco de dados.
+@app.route('/excluir/<int:id>', methods=['POST'])
+def excluir(id):
+    mycursor = mydb.cursor()
+    mycursor.execute("DELETE FROM logins WHERE id = %s", (id,))
     mydb.commit()
     return redirect('/dados')
+#########################################
 
-   
-
+#Executa o aplicativo no modo de depuração.
 if __name__ == '__main__':
-    # run app in debug mode on port 5000
     app.run(debug=True, port=5000)

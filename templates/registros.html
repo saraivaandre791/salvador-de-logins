@@ -3,7 +3,7 @@
 <head>
   
   <link href="../static/css/arena.css" rel="stylesheet">
-  <link rel="shortcut icon" type="image/svg" href="../static/adicionar-usuario.ico"/>
+  <link rel="shortcut icon" type="image/svg" href="../static/abobora.ico"/>
   
   <title>Salvador de Logins</title>
 </head>
@@ -15,7 +15,7 @@
   
   <table width="1020" height="25%" align="center"  border="2" bodercolor="blue">
     <TR BGCOLOR=#E0F8E0> <!--atributo COLSPAN diz q o cabeçalho vai abranger as 4 colunas-->
-      <TD ALIGN="center" VALIGN="center" COLSPAN="4">
+      <TD ALIGN="center" VALIGN="center" COLSPAN="5">
         <FONT FACE="Comic Sans MS"><B>Dados</B>
       </TD>
     <tr bgcolor="e0eeee">
@@ -33,38 +33,29 @@
       </td>
      
 
-      <tfoot>
-        <tr bgcolor="e0eeee">
-          <td>
-            <font face="Comic Sans MS"><b>ID</b></font>
-          </td>
-          <td>
-            <font face="Comic Sans MS"><b>PLATAFORMA</b></font>
-          </td>
-          <td>
-            <font face="Comic Sans MS"><b>LOGIN</b></font>
-          </td>
-          <td>
-            <font face="Comic Sans MS"><b>SENHA</b></font>
-          </td>
-          
-      </tfoot>
+      
 
-      {% for d in dados %}
+      {% for dado in dados %}
     <tr>
       <td>
-        <font face="Comic Sans MS" size="4">{{d.id}}</font>
+        <font face="Comic Sans MS" size="4">{{dado.id}}</font>
       </td>
 
       <td>
-        <font face="Comic Sans MS" size="4">{{d.plataforma}}</font>
+        <font face="Comic Sans MS" size="4">{{dado.plataforma}}</font>
       </td>
       <td>
-        <font face="Comic Sans MS" size="4">{{d.login}}</font>
+        <font face="Comic Sans MS" size="4">{{dado.login}}</font>
       </td>
       <td>
-        <font face="Comic Sans MS" size="4">{{d.senha}}</font>
+        <font face="Comic Sans MS" size="4">{{dado.senha}}</font>
       </td>
+      <td>
+        <form action="/excluir/{{ dado.id }}" method="POST">
+            <button type="submit">Excluir</button>
+        </form>
+    </td>
+    </tr>
       
       {% endfor %}
 
@@ -72,20 +63,13 @@
   
 </div>
 <br><br>
-<div>
 
-  <td><form method="POST" action="/delete">
-    <input type="text" name="id" placeholder="digite o ID para excluir">
-    <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-    </svg>excluir</button>
-  </form>
-  </td>
+
+<div>
 
 <br>
 <form action="./">
-  <input type="submit" value="NOVOS" />
+  <input type="submit" value="ADD NOVOS" />
 </div>
 
 </body>

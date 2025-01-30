@@ -13,7 +13,7 @@ div#form_fundo{
     margin: 10% 25% 25% 25% ;
     text-align: center;
     border-style: double; 
-    font-weight: bold;
+  font-family: cursive;
     box-shadow: 10px 25px 25px rgb(54, 53, 119);
 }
 
@@ -22,7 +22,7 @@ div#form_frente{
     margin: 5px;
     text-align: center;
     border-radius: 20px;
-    font-weight: bold;
+    font-family: cursive;
     box-shadow: 2px 5px 5px rgb(19, 15, 130);
     padding: 30px;
 
@@ -31,7 +31,7 @@ div#form_frente{
 
 label{
     font-size: 20px;
-    font-weight: bold;
+   font-family: cursive;
     border-radius: 10px;
     padding: 19px;
 
@@ -39,8 +39,8 @@ label{
 
 input{
     border-radius: 20px;
-    font-size: 15px;
-    font-weight: bolder;
+    font-family: cursive;
+    font-family: cursive;
 
 }
 
@@ -50,7 +50,7 @@ input:focus{
 }
 button{
     font-size: 30px;
-    font-weight: bold;
+    font-family: cursive;
     border-radius: 10px;
     background-color: black;
     color: blue;
@@ -60,7 +60,7 @@ button{
 button:hover{
     background-color: blue;
     color: black;
-    font-size: 30px;
+    font-family: cursive;
     cursor: pointer;
 
 }
